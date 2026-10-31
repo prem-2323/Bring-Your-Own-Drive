@@ -89,6 +89,29 @@ uvicorn app.main:app --reload
 4. In **Google Cloud Console > Credentials > OAuth 2.0 Client ID**, add to **Authorized redirect URIs**:
    `https://<your-vercel-domain>.vercel.app/auth/callback`
 
+### Custom Domain Setup (`masterperi5.me`)
+
+#### On Render:
+1. Open your service in the [Render Dashboard](https://dashboard.render.com).
+2. Go to **Settings > Custom Domains**.
+3. Add `masterperi5.me` (Render automatically configures `www.masterperi5.me` as well).
+4. Update DNS with your domain registrar / DNS provider (Cloudflare, Namecheap, GoDaddy, etc.):
+   - **Root domain (`@`)**: Add `ALIAS` / `ANAME` or `A` record pointing to Render's IP provided in dashboard (e.g., `216.24.57.1`).
+   - **Subdomain (`www`)**: Add `CNAME` record with Host `www` pointing to `bring-your-own-drive.onrender.com`.
+   - Remove any existing `AAAA` records (IPv6) as Render uses IPv4.
+5. In **Google Cloud Console > Credentials > OAuth 2.0 Client ID**, add to **Authorized redirect URIs**:
+   - `https://masterperi5.me/auth/callback`
+   - `https://www.masterperi5.me/auth/callback`
+6. In Render Environment Variables, set:
+   - `BASE_URL`: `https://masterperi5.me`
+
+#### On Vercel:
+1. Open your project in the [Vercel Dashboard](https://vercel.com).
+2. Go to **Settings > Domains** and add `masterperi5.me`.
+3. Add the DNS records shown by Vercel (`A` record `76.76.21.21` or `CNAME` for `cname.vercel-dns.com`).
+4. In Google Cloud Console, add `https://masterperi5.me/auth/callback` to **Authorized redirect URIs**.
+5. Set `BASE_URL=https://masterperi5.me`.
+
 ## API endpoints
 - `GET /api/health` — health status
 - `GET /api/me` — current user
